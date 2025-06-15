@@ -30,7 +30,7 @@ public class ProjectService {
         }
 
         Optional<ServiceModel> service = repository.findById(id);
-        if (!service.isPresent()) {
+        if (service.isPresent()) {
             cache.put(service.get());
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Service not found with id: " + id);
