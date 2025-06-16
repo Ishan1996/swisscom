@@ -51,6 +51,9 @@ public class ProjectService {
     }
 
     public ServiceModel createService(ServiceModel service) {
+        if (serviceExists(service.getId())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Service already exists with id: " + service.getId());
+        }
         ServiceModel saved = repository.save(service);
         cache.put(saved);
         return saved;
