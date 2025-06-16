@@ -1,6 +1,6 @@
 package com.swisscom.project;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ class ProjectApplicationTests {
     @Autowired
     private ServiceRepository repository;
 
-    @BeforeEach
+    @AfterEach
     void cleanDB() {
         repository.deleteAll();
     }
@@ -57,6 +57,11 @@ class ProjectApplicationTests {
                 .content(sampleServiceJson))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value("service_test"));
+        
+        mockMvc.perform(post("/api/services")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(sampleServiceJson))
+                .andExpect(status().isConflict());
     }
 
     @Test
@@ -117,6 +122,11 @@ class ProjectApplicationTests {
                 .content(updatedJson))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.resources[0].owners[0].name").value("Jane Doe"));
+        
+        mockMvc.perform(put("/api/services/service_test_2")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(updatedJson))
+                .andExpect(status().isBadRequest());
     }
 
     @Test
