@@ -87,7 +87,7 @@ To configure the values simply pass them as flags while running the main.go file
 go run main.go -method GET -url http://localhost:8080/api/services/service_id_1 -batch 50 -steps 5
 ```
 
-This will call the get method 50 times in 5 steps. 
+This will call the get method 50 times in each steps 5 times. 
 
 Allowed flags are
 
